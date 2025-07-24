@@ -12,14 +12,32 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
 
-
+  /** 
+   * Choppe les blogs qui sont dans la BDD
+  */
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
 
+  /** 
+   * Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas 
+  */
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      // noteService.setToken(user.token)
+    }
+  }, [])
 
+
+  /** 
+   * Gère la connection de l'utilisateur, donne un message d'erreur si les identifiants
+   * et mots de passes sont mauvais 
+  */
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -27,6 +45,9 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      ) 
       setUser(user)
       setUsername('')
       setPassword('')
