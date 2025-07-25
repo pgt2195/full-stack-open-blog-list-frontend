@@ -73,6 +73,7 @@ const App = () => {
         : <DisplayBlogs
             blogs={blogs}
             user={user}
+            setUser={setUser}
           />
       }
     </div>
