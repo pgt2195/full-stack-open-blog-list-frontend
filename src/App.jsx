@@ -4,10 +4,12 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import DisplayBlogs from './components/DisplayBlogs'
 import Notification from './components/Notification'
+import { emptyBlog } from './services/utils'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState(emptyBlog)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -29,7 +31,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      // noteService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -47,7 +49,9 @@ const App = () => {
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
+
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -59,6 +63,27 @@ const App = () => {
     }
   }
 
+  /**
+   * Gère l'ajout d'un nouveau blog depuis le formulaire d'ajout
+   * du composant DisplayBlogs
+   */
+  const addBlog = (event) => {
+    event.preventDefault()
+
+    blogService
+      .create(newBlog)
+        .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setNewBlog(emptyBlog)
+      })
+  }
+
+  const handleBlogChange = (event) => {
+    setNewBlog({
+      ...newBlog,
+      [event.target.name]: event.target.value
+    });
+  }
 
   return (
     <div>
@@ -74,6 +99,9 @@ const App = () => {
             blogs={blogs}
             user={user}
             setUser={setUser}
+            addBlog={addBlog}
+            newBlog={newBlog}
+            handleBlogChange={handleBlogChange}
           />
       }
     </div>
