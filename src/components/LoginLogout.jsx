@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { displayMessage } from '../services/utils'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import Togglable from './Toggable'
 
 const LoginLogout = ({ user, setUser, setErrorMessage }) => {
   const [username, setUsername] = useState('') 
@@ -39,7 +40,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
   return (
     <>
       {user === null 
-      ? <>
+      ? <Togglable buttonLabel='login'>
           <p><b>log in to application</b></p>
           <form onSubmit={handleLogin}>
             <div>
@@ -62,7 +63,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
             </div>
             <button type="submit">login</button>
           </form>
-        </> 
+        </Togglable> 
       : <div style={{ margin: "10px auto" }}>
           <span>{user.name} is logged in —</span>
           <button style={{ marginLeft: 4 }} onClick={logout}>
