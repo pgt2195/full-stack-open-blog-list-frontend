@@ -10,7 +10,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
 
   /** 
    * Gère la connection de l'utilisateur, donne un message d'erreur si les identifiants
-   * et mots de passes sont mauvais 
+   * et mots de passes sont mauvais, stock les données de login dans le localStorage
   */
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -32,6 +32,9 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
     }
   }
 
+  /** 
+   * Gère la déconnection de l'utilisateur
+  */
   const logout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)

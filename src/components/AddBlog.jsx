@@ -2,7 +2,7 @@ import { useState } from 'react';
 import blogService from '../services/blogs'
 import { emptyBlog, displayMessage } from '../services/utils'
 
-const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage }) => {
+const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage, blogFormRef }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog)
 
   /**
@@ -11,6 +11,8 @@ const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage }) => {
    */
   const addBlog = (event) => {
     event.preventDefault()
+
+    blogFormRef.current.toggleVisibility()
 
     try {
       blogService
@@ -39,7 +41,7 @@ const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage }) => {
   return (
     <div>
       <div style={{marginBottom: 8}}><b>Add a new blog:</b></div>
-      <form onSubmit={addBlog} style={{marginBottom: 20}}>
+      <form onSubmit={addBlog}>
             title: <input name="title" value={newBlog.title} onChange={handleNewBlogChange} /><br/>
             author: <input name="author" value={newBlog.author} onChange={handleNewBlogChange} /><br/>
             url: <input name="url" value={newBlog.url} onChange={handleNewBlogChange} /><br/>

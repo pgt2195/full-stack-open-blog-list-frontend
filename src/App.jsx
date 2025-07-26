@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import LoginLogout from './components/LoginLogout'
 import AddBlog from './components/AddBlog'
@@ -11,6 +11,8 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  
+  const blogFormRef = useRef()
 
   /** 
    * Choppe les blogs qui sont dans la BDD
@@ -46,12 +48,17 @@ const App = () => {
         setErrorMessage={setErrorMessage}
       />
 
-      {user !== null && <AddBlog 
-        setMessage={setMessage}
-        setErrorMessage={setErrorMessage}
-        blogs={blogs}
-        setBlogs={setBlogs}
-      />}
+      {user !== null && 
+        <Togglable buttonLabel='add new note' ref={blogFormRef} style={{marginTop: 4}}>
+          <AddBlog 
+            setMessage={setMessage}
+            setErrorMessage={setErrorMessage}
+            blogs={blogs}
+            setBlogs={setBlogs}
+            blogFormRef={blogFormRef}
+          />
+        </Togglable>
+      }
 
       <DisplayBlogs
         blogs={blogs}
