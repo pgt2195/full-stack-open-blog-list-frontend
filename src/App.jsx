@@ -4,10 +4,11 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import DisplayBlogs from './components/DisplayBlogs'
 import Notification from './components/Notification'
-import { emptyBlog } from './services/utils'
+import { emptyBlog, displayMessage } from './services/utils'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState(emptyBlog)
   const [username, setUsername] = useState('') 
@@ -56,10 +57,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      displayMessage('Wrong credentials', setErrorMessage)
     }
   }
 
@@ -70,15 +68,20 @@ const App = () => {
   const addBlog = (event) => {
     event.preventDefault()
 
-    blogService
-      .create(newBlog)
-        .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewBlog(emptyBlog)
-      })
+    try {
+      blogService
+        .create(newBlog)
+          .then(returnedBlog => {
+          setBlogs(blogs.concat(returnedBlog))
+          setNewBlog(emptyBlog)
+          displayMessage(`New blog "${newBlog.title}" by <i>${newBlog.author}</i> has been added`, setMessage)
+        })
+    } catch (exception) {
+      displayMessage('Oops, something wrong happened', setErrorMessage)
+    }
   }
 
-  const handleBlogChange = (event) => {
+  const handleNewBlogChange = (event) => {
     setNewBlog({
       ...newBlog,
       [event.target.name]: event.target.value
@@ -87,7 +90,8 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} type='bad' />
+      <Notification message={message} />
 
       {user === null 
         ? <LoginForm 
@@ -101,7 +105,7 @@ const App = () => {
             setUser={setUser}
             addBlog={addBlog}
             newBlog={newBlog}
-            handleBlogChange={handleBlogChange}
+            handleNewBlogChange={handleNewBlogChange}
           />
       }
     </div>
