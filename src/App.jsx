@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import blogService from './services/blogs'
-import loginService from './services/login'
-import LoginForm from './components/LoginForm'
+import LoginLogout from './components/LoginLogout'
 import AddBlog from './components/AddBlog'
 import DisplayBlogs from './components/DisplayBlogs'
 import Notification from './components/Notification'
@@ -13,8 +12,6 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState(emptyBlog)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
 
   /** 
@@ -37,31 +34,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-
-  /** 
-   * Gère la connection de l'utilisateur, donne un message d'erreur si les identifiants
-   * et mots de passes sont mauvais 
-  */
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      displayMessage('Wrong credentials', setErrorMessage)
-    }
-  }
 
   /**
    * Gère l'ajout d'un nouveau blog depuis le formulaire d'ajout
@@ -101,16 +73,13 @@ const App = () => {
 
       <h2>blogs</h2>
 
-      <LoginForm 
+      <LoginLogout 
         user={user}
-        formData={{username, password}} 
-        handleLogin={handleLogin}
-        onChange={{setUsername, setPassword}}
         setUser={setUser}
+        setErrorMessage={setErrorMessage}
       />
 
       {user !== null && <AddBlog 
-        setUser={setUser} 
         addBlog={addBlog}
         newBlog={newBlog}
         handleNewBlogChange={handleNewBlogChange}

@@ -1,11 +1,4 @@
-import Blog from "./Blog";
-
-const AddBlog = ({ setUser, addBlog, newBlog, handleNewBlogChange }) => {
-
-  const logout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
-  };
+const AddBlog = ({ addBlog, newBlog, handleNewBlogChange }) => {
 
   return (
     <div>
