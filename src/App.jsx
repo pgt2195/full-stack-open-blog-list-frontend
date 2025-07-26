@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import AddBlog from './components/AddBlog'
 import DisplayBlogs from './components/DisplayBlogs'
 import Notification from './components/Notification'
 import { emptyBlog, displayMessage } from './services/utils'
+import Togglable from './components/Toggable'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -81,6 +83,10 @@ const App = () => {
     }
   }
 
+  /**
+   * Gère la mise à jour de l'état d'un nouveau blog lorsqu'il 
+   * est en train d'être ajouté
+   */
   const handleNewBlogChange = (event) => {
     setNewBlog({
       ...newBlog,
@@ -93,21 +99,26 @@ const App = () => {
       <Notification message={errorMessage} type='bad' />
       <Notification message={message} />
 
-      {user === null 
-        ? <LoginForm 
-            formData={{username, password}} 
-            handleLogin={handleLogin}
-            onChange={{setUsername, setPassword}}
-          />  
-        : <DisplayBlogs
-            blogs={blogs}
-            user={user}
-            setUser={setUser}
-            addBlog={addBlog}
-            newBlog={newBlog}
-            handleNewBlogChange={handleNewBlogChange}
-          />
-      }
+      <h2>blogs</h2>
+
+      <LoginForm 
+        user={user}
+        formData={{username, password}} 
+        handleLogin={handleLogin}
+        onChange={{setUsername, setPassword}}
+        setUser={setUser}
+      />
+
+      {user !== null && <AddBlog 
+        setUser={setUser} 
+        addBlog={addBlog}
+        newBlog={newBlog}
+        handleNewBlogChange={handleNewBlogChange}
+      />}
+
+      <DisplayBlogs
+        blogs={blogs}
+      />
     </div>
   )
 }
