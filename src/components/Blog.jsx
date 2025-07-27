@@ -18,7 +18,14 @@ const buttonStyle = {
   right: 5
 }
 
-const Blog = ({ blog, blogs, setBlogs, setErrorMessage }) => {
+const postedByStyle = {
+  position: 'absolute',
+  bottom: 5,
+  right: 5,
+  fontSize: '10pt'
+}
+
+const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false)
 
   const likeBlog = (blog) => {
@@ -34,15 +41,41 @@ const Blog = ({ blog, blogs, setBlogs, setErrorMessage }) => {
     }
   }
 
+  const deleteBlog = (idToRemove) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this blog?")
+
+    if (confirmDelete) {
+      try {
+        blogService
+          .deleteBlog(blog.id)
+            .then(() => {
+              setBlogs(blogs.filter(blog => blog.id !== idToRemove))
+              displayMessage(`Blog "${blog.title}" has been successfully deleted`, setMessage)
+            })
+      } catch (exception) {
+        displayMessage(`Oops, something wrong happened! Error: ${exception}`, setErrorMessage)
+      }
+    }
+  }
+
+  const blogPostetByConnectedUser = user && user.username === blog.user.username
+
   return (
     <div style={blogStyle}>
       {blog.title}
       { toggleBlogInfo 
         ? <>
             <button style={buttonStyle} onClick={() => setToggleBlogInfo(!toggleBlogInfo)}>hide</button>
+            
             <div><u>Link:</u> {blog.url}</div>
             <div><u>Likes:</u> {blog.likes} <button onClick={() => likeBlog(blog)}>like</button></div>
             <div><u>Author:</u> {blog.author}</div>
+
+            <div style={postedByStyle}>Added by {blogPostetByConnectedUser ? 'you' : blog.user.username}</div>
+
+            { blogPostetByConnectedUser &&
+              <button style={{marginTop: 12}} onClick={() => deleteBlog(blog.id)}>remove blog</button>
+            }
           </>
         : <>
             <button style={buttonStyle} onClick={() => setToggleBlogInfo(!toggleBlogInfo)}>view</button>

@@ -51,6 +51,7 @@ const App = () => {
       {user !== null && 
         <Togglable buttonLabel='add new note' ref={blogFormRef} style={{marginTop: 4}}>
           <AddBlog 
+            user={user}
             setMessage={setMessage}
             setErrorMessage={setErrorMessage}
             blogs={blogs}
@@ -61,8 +62,10 @@ const App = () => {
       }
 
       <DisplayBlogs
+        user={user}
         blogs={blogs}
         setBlogs={setBlogs}
+        setMessage={setMessage}
         setErrorMessage={setErrorMessage}
       />
     </div>

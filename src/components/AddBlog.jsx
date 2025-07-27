@@ -2,7 +2,7 @@ import { useState } from 'react';
 import blogService from '../services/blogs'
 import { emptyBlog, displayMessage } from '../services/utils'
 
-const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage, blogFormRef }) => {
+const AddBlog = ({ user, blogs, setBlogs, setMessage, setErrorMessage, blogFormRef }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog)
 
   /**
@@ -18,9 +18,11 @@ const AddBlog = ({ blogs, setBlogs, setMessage, setErrorMessage, blogFormRef }) 
       blogService
         .create(newBlog)
           .then(returnedBlog => {
-          setBlogs(blogs.concat(returnedBlog))
-          setNewBlog(emptyBlog)
-          displayMessage(`New blog "${newBlog.title}" by <i>${newBlog.author}</i> has been added`, setMessage)
+            returnedBlog = {...returnedBlog, user: {id: returnedBlog.user, username: user.username, name: user.name}} // pour gérer l'affichage de l'utilsateur sans avoir à recharger la page après l'ajout
+            setBlogs(blogs.concat(returnedBlog))
+            console.log(returnedBlog)
+            setNewBlog(emptyBlog)
+            displayMessage(`New blog "${newBlog.title}" by <i>${newBlog.author}</i> has been added`, setMessage)
         })
     } catch (exception) {
       displayMessage(`Oops, something wrong happened! Error: ${exception}`, setErrorMessage)
