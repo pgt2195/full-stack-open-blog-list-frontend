@@ -34,7 +34,8 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
       blogService
         .update(blog.id, likedBlog)
           .then(returnedBlog => {
-          setBlogs(blogs.map(blog => blog.id === returnedBlog.id ? returnedBlog : blog))
+            returnedBlog = {...returnedBlog, user: blog.user} // pour gérer l'affichage de l'utilsateur sans avoir à recharger la page après l'ajout
+            setBlogs(blogs.map(blog => blog.id === returnedBlog.id ? returnedBlog : blog))
         })
     } catch (exception) {
       displayMessage(`Oops, something wrong happened! Error: ${exception}`, setErrorMessage)
