@@ -62,6 +62,8 @@ const App = () => {
 
       <DisplayBlogs
         blogs={blogs}
+        setBlogs={setBlogs}
+        setErrorMessage={setErrorMessage}
       />
     </div>
   )

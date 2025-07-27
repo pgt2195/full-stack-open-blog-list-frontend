@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Toggable from "./Toggable";
+import { displayMessage } from "../services/utils";
+import blogService from '../services/blogs'
 
 const blogStyle = {
   maxWidth: 500,
@@ -17,8 +18,21 @@ const buttonStyle = {
   right: 5
 }
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogs, setBlogs, setErrorMessage }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false)
+
+  const likeBlog = (blog) => {
+    const likedBlog = {...blog, likes: blog.likes + 1}
+    try {
+      blogService
+        .update(blog.id, likedBlog)
+          .then(returnedBlog => {
+          setBlogs(blogs.map(blog => blog.id === returnedBlog.id ? returnedBlog : blog))
+        })
+    } catch (exception) {
+      displayMessage(`Oops, something wrong happened! Error: ${exception}`, setErrorMessage)
+    }
+  }
 
   return (
     <div style={blogStyle}>
@@ -27,7 +41,7 @@ const Blog = ({ blog }) => {
         ? <>
             <button style={buttonStyle} onClick={() => setToggleBlogInfo(!toggleBlogInfo)}>hide</button>
             <div><u>Link:</u> {blog.url}</div>
-            <div><u>Likes:</u> {blog.likes} <button>like</button></div>
+            <div><u>Likes:</u> {blog.likes} <button onClick={() => likeBlog(blog)}>like</button></div>
             <div><u>Author:</u> {blog.author}</div>
           </>
         : <>
