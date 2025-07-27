@@ -30,7 +30,7 @@ const AddBlog = ({ user, blogs, setBlogs, setMessage, setErrorMessage, blogFormR
   }
 
   /**
-   * Gère la mise à jour de l'état d'un nouveau blog lorsqu'il 
+   * Gère la mise à jour de l'état d'un nouveau blog lorsqu'il
    * est en train d'être ajouté
    */
   const handleNewBlogChange = (event) => {

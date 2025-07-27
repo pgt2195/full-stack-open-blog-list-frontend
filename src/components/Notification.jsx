@@ -13,12 +13,12 @@ const Notification = ({ message, type }) => {
     width: 500
   }
 
-  const style = type === 'bad' 
+  const style = type === 'bad'
     ? {...baseStyle, color: 'red'}
-    : {...baseStyle, color: 'green'} 
+    : {...baseStyle, color: 'green'}
 
   // dangerouslySetInnerHTML permet au message d'être interprété comme du html et non du texte.
-  // ne pas utiliser cette technique avec tu contenu qui est écrit par l'utilisateur. 
+  // ne pas utiliser cette technique avec tu contenu qui est écrit par l'utilisateur.
   return (
     <div style={style} className={type === 'bad' ? 'error' : 'notification'}
          dangerouslySetInnerHTML={{ __html: message }}>

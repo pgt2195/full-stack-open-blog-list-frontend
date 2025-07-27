@@ -11,20 +11,20 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  
+
   const blogFormRef = useRef()
 
-  /** 
+  /**
    * Choppe les blogs qui sont dans la BDD
   */
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
-  /** 
-   * Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas 
+  /**
+   * Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
   */
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -42,15 +42,15 @@ const App = () => {
 
       <h2>blogs</h2>
 
-      <LoginLogout 
+      <LoginLogout
         user={user}
         setUser={setUser}
         setErrorMessage={setErrorMessage}
       />
 
-      {user !== null && 
+      {user !== null &&
         <Togglable buttonLabel='add new note' ref={blogFormRef} style={{marginTop: 4}}>
-          <AddBlog 
+          <AddBlog
             user={user}
             setMessage={setMessage}
             setErrorMessage={setErrorMessage}

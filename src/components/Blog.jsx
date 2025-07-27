@@ -64,10 +64,10 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
   return (
     <div style={blogStyle}>
       {blog.title}
-      { toggleBlogInfo 
+      { toggleBlogInfo
         ? <>
             <button style={buttonStyle} onClick={() => setToggleBlogInfo(!toggleBlogInfo)}>hide</button>
-            
+
             <div><u>Link:</u> {blog.url}</div>
             <div><u>Likes:</u> {blog.likes} <button onClick={() => likeBlog(blog)}>like</button></div>
             <div><u>Author:</u> {blog.author}</div>

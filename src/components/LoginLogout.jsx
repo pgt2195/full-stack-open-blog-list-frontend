@@ -5,16 +5,16 @@ import loginService from '../services/login'
 import Togglable from './Toggable'
 
 const LoginLogout = ({ user, setUser, setErrorMessage }) => {
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  /** 
+  /**
    * Gère la connection de l'utilisateur, donne un message d'erreur si les identifiants
    * et mots de passes sont mauvais, stock les données de login dans le localStorage
   */
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -32,7 +32,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
     }
   }
 
-  /** 
+  /**
    * Gère la déconnection de l'utilisateur
   */
   const logout = () => {
@@ -42,7 +42,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
 
   return (
     <>
-      {user === null 
+      {user === null
       ? <Togglable buttonLabel='login'>
           <p><b>log in to application</b></p>
           <form onSubmit={handleLogin}>
@@ -66,7 +66,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
             </div>
             <button type="submit">login</button>
           </form>
-        </Togglable> 
+        </Togglable>
       : <div style={{ margin: "10px auto" }}>
           <span>{user.name} is logged in —</span>
           <button style={{ marginLeft: 4 }} onClick={logout}>
