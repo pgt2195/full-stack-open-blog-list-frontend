@@ -79,6 +79,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
             }
           </>
         : <>
+            <span style={{fontSize:'10pt'}}><i> - by {blog.author}</i></span>
             <button style={buttonStyle} onClick={() => setToggleBlogInfo(!toggleBlogInfo)}>view</button>
           </>
       }
