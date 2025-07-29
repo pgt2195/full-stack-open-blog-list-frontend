@@ -38,7 +38,7 @@ test('renders content', () => {
 })
 
 
-test('clicking the button to show details of the flog', async () => {
+test('clicking the button to show details of the blog', async () => {
   
   render(<Blog blog={initialBlog} />)
 
