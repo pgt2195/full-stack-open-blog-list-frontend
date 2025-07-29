@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import { vi } from 'vitest'
+import blogService from '../services/blogs'
+
+// On dit à Vitest de simuler le module 'blogs.js'.
+// Toutes les fonctions exportées (update, create, etc.) seront remplacées par des mocks.
+vi.mock('../services/blogs') 
 
 const initialBlog = {
     "title": "Je fais un nouveau test",
@@ -47,4 +53,22 @@ test('clicking the button to show details of the flog', async () => {
   const blogPostedBy = screen.queryByText('Added by Pololo_2')
 
   expect(blogTitle, blogAuthor, blogUrl, blogLikes, blogPostedBy).toBeDefined()
+})
+
+/**
+ * Here, since my component was built differently than the one the the exercise,
+ * I had to be creative on how to test the like button.
+ */
+test('clicking the like button twice calls the event handler twice', async () => {
+  
+  render(<Blog blog={initialBlog} setBlogs={() => {}} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('view')
+  await user.click(button)
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(blogService.update.mock.calls).toHaveLength(2) // Possible grâce à la ligne 9
 })
