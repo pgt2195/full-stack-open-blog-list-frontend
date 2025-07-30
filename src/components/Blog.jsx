@@ -62,7 +62,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
   const blogPostetByConnectedUser = user && user.username === blog.user.username
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid="blog-unit">
       {blog.title}
       { toggleBlogInfo
         ? <>
