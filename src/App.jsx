@@ -49,7 +49,7 @@ const App = () => {
       />
 
       {user !== null &&
-        <Togglable buttonLabel='add new note' ref={blogFormRef} style={{marginTop: 4}}>
+        <Togglable buttonLabel='add new blog' ref={blogFormRef} style={{marginTop: 4}}>
           <AddBlog
             user={user}
             setMessage={setMessage}

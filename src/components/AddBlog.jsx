@@ -44,9 +44,9 @@ const AddBlog = ({ user, blogs, setBlogs, setMessage, setErrorMessage, blogFormR
     <div>
       <div style={{marginBottom: 8}}><b>Add a new blog:</b></div>
       <form onSubmit={addBlog}>
-            title: <input name="title" aria-label="title" value={newBlog.title} onChange={handleNewBlogChange} /><br/>
-            author: <input name="author" aria-label="author" value={newBlog.author} onChange={handleNewBlogChange} /><br/>
-            url: <input name="url" aria-label="url" value={newBlog.url} onChange={handleNewBlogChange} /><br/>
+            title: <input name="title" data-testid="title" value={newBlog.title} onChange={handleNewBlogChange} /><br/>
+            author: <input name="author" data-testid="author" value={newBlog.author} onChange={handleNewBlogChange} /><br/>
+            url: <input name="url" data-testid="url" value={newBlog.url} onChange={handleNewBlogChange} /><br/>
             <button type="submit">save</button>
       </form>
     </div>
