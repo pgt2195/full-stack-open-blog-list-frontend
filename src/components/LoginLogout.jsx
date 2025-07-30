@@ -69,9 +69,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
         </Togglable>
       : <div style={{ margin: "10px auto" }}>
           <span>{user.name} is logged in —</span>
-          <button style={{ marginLeft: 4 }} onClick={logout}>
-            logout
-          </button>
+          <button style={{ marginLeft: 4 }} onClick={logout}>logout</button>
         </div>
       }
     </>
