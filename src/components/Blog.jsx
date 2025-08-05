@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { displayMessage } from "../services/utils";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../reducers/notificationReducer";
 import blogService from "../services/blogs";
 
 const blogStyle = {
@@ -25,8 +26,9 @@ const postedByStyle = {
   fontSize: "10pt",
 };
 
-const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
+const Blog = ({ user, blog, blogs, setBlogs }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false);
+  const dispatch = useDispatch();
 
   const likeBlog = (blog) => {
     const likedBlog = { ...blog, likes: blog.likes + 1 };
@@ -38,12 +40,10 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
             blog.id === returnedBlog.id ? returnedBlog : blog,
           ),
         );
+        dispatch(showNotification(`Blog liked successfully: ${blog.title}`, 'success', 5));
       });
     } catch (exception) {
-      displayMessage(
-        `Oops, something wrong happened! Error: ${exception}`,
-        setErrorMessage,
-      );
+      dispatch(showNotification('error liking blog', 'error', 5));
     }
   };
 
@@ -56,16 +56,9 @@ const Blog = ({ user, blog, blogs, setBlogs, setErrorMessage, setMessage }) => {
       try {
         blogService.deleteBlog(blog.id).then(() => {
           setBlogs(blogs.filter((blog) => blog.id !== idToRemove));
-          displayMessage(
-            `Blog "${blog.title}" has been successfully deleted`,
-            setMessage,
-          );
         });
       } catch (exception) {
-        displayMessage(
-          `Oops, something wrong happened! Error: ${exception}`,
-          setErrorMessage,
-        );
+        console.log(exception)
       }
     }
   };

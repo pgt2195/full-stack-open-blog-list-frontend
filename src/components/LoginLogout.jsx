@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { displayMessage } from "../services/utils";
 import blogService from "../services/blogs";
 import loginService from "../services/login";
 import Togglable from "./Toggable";
 
-const LoginLogout = ({ user, setUser, setErrorMessage }) => {
+const LoginLogout = ({ user, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +26,7 @@ const LoginLogout = ({ user, setUser, setErrorMessage }) => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      displayMessage("Wrong credentials", setErrorMessage);
+      console.log(exception)
     }
   };
 

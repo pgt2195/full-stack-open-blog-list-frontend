@@ -1,8 +1,42 @@
-const Notification = ({ message, type }) => {
-  if (message === null) {
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+/** 
+ * Renvoie la couleur de la notification en fonction de son type.
+ * @param {string} type - Le type de la notification.
+ * @returns {string} La couleur de la notification.
+ */
+const getNotificationColor = (type) => {
+  switch (type) {
+    case "success":
+      return "green";
+    case "error":
+      return "red";
+    case "warning":
+      return "orange";
+    case "info":
+      return "blue";
+    default:
+      return "black";
+  }
+};
+
+
+const Notification = () => {
+  // Récupère les notifications depuis le store Redux
+  const notifications = useSelector(state => state.notifications)
+
+  useEffect(() => {
+    // Logique pour gérer les effets secondaires si nécessaire
+    console.log('Notifications updated:', notifications);
+  }, [notifications]);
+  
+  // Si aucune notification n'est présente, retourne null
+  if (notifications.length === 0) {
     return null;
   }
 
+  // Définit le style de base pour une notification
   const baseStyle = {
     background: "lightgrey",
     fontSize: 20,
@@ -13,19 +47,24 @@ const Notification = ({ message, type }) => {
     width: 500,
   };
 
-  const style =
-    type === "bad"
-      ? { ...baseStyle, color: "red" }
-      : { ...baseStyle, color: "green" };
-
-  // dangerouslySetInnerHTML permet au message d'être interprété comme du html et non du texte.
-  // ne pas utiliser cette technique avec tu contenu qui est écrit par l'utilisateur.
+  // Affiche les notifications
+  // Utilise map pour créer un élément div pour chaque notification
   return (
-    <div
-      style={style}
-      className={type === "bad" ? "error" : "notification"}
-      dangerouslySetInnerHTML={{ __html: message }}
-    ></div>
+    <div>
+      {notifications.map(notif => {
+        return (
+          <div style={
+              {...baseStyle, 
+              color: getNotificationColor(notif.type)}
+            }
+            key={notif.id}
+          >
+            {notif.message}
+          </div>
+        )
+      })}
+
+    </div>
   );
 };
 

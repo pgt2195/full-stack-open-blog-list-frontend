@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 import blogService from "./services/blogs";
 import LoginLogout from "./components/LoginLogout";
 import AddBlog from "./components/AddBlog";
@@ -7,8 +8,6 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Toggable";
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [message, setMessage] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -35,15 +34,13 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} type="bad" />
-      <Notification message={message} />
+      <Notification />
 
       <h2>blogs</h2>
 
       <LoginLogout
         user={user}
         setUser={setUser}
-        setErrorMessage={setErrorMessage}
       />
 
       {user !== null && (
@@ -54,8 +51,6 @@ const App = () => {
         >
           <AddBlog
             user={user}
-            setMessage={setMessage}
-            setErrorMessage={setErrorMessage}
             blogs={blogs}
             setBlogs={setBlogs}
             blogFormRef={blogFormRef}
@@ -67,8 +62,6 @@ const App = () => {
         user={user}
         blogs={blogs}
         setBlogs={setBlogs}
-        setMessage={setMessage}
-        setErrorMessage={setErrorMessage}
       />
     </div>
   );

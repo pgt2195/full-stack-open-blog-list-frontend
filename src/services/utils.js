@@ -1,26 +1,24 @@
+/**
+ * Fichier utils.js
+ * Contient des fonctions utilitaires pour la gestion des blogs
+ */
+
+/**
+ * Représente un blog vide pour l'initialisation
+ * @type {Object}
+ */
 const emptyBlog = {
   title: "",
   author: "",
   url: "",
 };
 
-const displayMessage = (message, setMessage = null, setErrorMessage = null) => {
-  if (setMessage) {
-    setMessage(message);
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-  } else if (setErrorMessage) {
-    setErrorMessage(message);
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  } else {
-    console.log(
-      "Wrong usage: you need provide 'setMessage' or 'setErrorMessage' to the function declaration",
-    );
-    return;
-  }
-};
+/**
+ * Génère un ID unique pour un nouveau blog
+ * @returns {string} Un ID unique basé sur le timestamp et un random
+ */
+const generateId = () => {
+  return Date.now().toString() + Math.random().toString(36).substring(2, 6);
+}
 
-export { emptyBlog, displayMessage };
+export { emptyBlog, generateId };

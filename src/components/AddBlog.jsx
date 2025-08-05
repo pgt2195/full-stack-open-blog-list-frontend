@@ -1,13 +1,11 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
-import { emptyBlog, displayMessage } from "../services/utils";
+import { emptyBlog } from "../services/utils";
 
 const AddBlog = ({
   user,
   blogs,
   setBlogs,
-  setMessage,
-  setErrorMessage,
   blogFormRef,
 }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog);
@@ -34,16 +32,9 @@ const AddBlog = ({
         setBlogs(blogs.concat(returnedBlog));
         console.log(returnedBlog);
         setNewBlog(emptyBlog);
-        displayMessage(
-          `New blog "${newBlog.title}" by <i>${newBlog.author}</i> has been added`,
-          setMessage,
-        );
       });
     } catch (exception) {
-      displayMessage(
-        `Oops, something wrong happened! Error: ${exception}`,
-        setErrorMessage,
-      );
+      console.log(exception)
     }
   };
 

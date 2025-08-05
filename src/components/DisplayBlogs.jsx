@@ -4,8 +4,6 @@ const DisplayBlogs = ({
   user,
   blogs,
   setBlogs,
-  setErrorMessage,
-  setMessage,
 }) => {
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
 
@@ -21,8 +19,6 @@ const DisplayBlogs = ({
           blog={blog}
           blogs={blogs}
           setBlogs={setBlogs}
-          setErrorMessage={setErrorMessage}
-          setMessage={setMessage}
         />
       ))}
     </div>
