@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchBlogs } from "./reducers/blogReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import blogService from "./services/blogs";
 import LoginLogout from "./components/LoginLogout";
@@ -8,26 +8,19 @@ import AddBlog from "./components/AddBlog";
 import DisplayBlogs from "./components/DisplayBlogs";
 import Notification from "./components/Notification";
 import Togglable from "./components/Toggable";
+import { initializeUser } from "./reducers/userReducer";
+import { use } from "react";
 
 const App = () => {
   // const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const blogFormRef = useRef();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
-  // Récupération des blogs au chargement de l'application
   useEffect(() => {
-    dispatch(fetchBlogs());
-  }, []);
-
-  // Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
+    dispatch(fetchBlogs()); // Récupération des blogs au chargement de l'application
+    dispatch(initializeUser()); // Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
   }, []);
 
   return (
@@ -36,10 +29,7 @@ const App = () => {
 
       <h2>blogs</h2>
 
-      <LoginLogout
-        user={user}
-        setUser={setUser}
-      />
+      <LoginLogout />
 
       {user !== null && (
         <Togglable
@@ -47,16 +37,11 @@ const App = () => {
           ref={blogFormRef}
           style={{ marginTop: 4 }}
         >
-          <AddBlog
-            user={user}
-            blogFormRef={blogFormRef}
-          />
+          <AddBlog blogFormRef={blogFormRef} />
         </Togglable>
       )}
 
-      <DisplayBlogs
-        user={user}
-      />
+      <DisplayBlogs />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import blogService from '../services/blogs';
 import { showNotification } from './notificationReducer';
+import { formatToken } from '../services/utils';
 
 //// SLICE ////
 const blogSlice = createSlice({
@@ -52,7 +53,8 @@ export const fetchBlogs = () => {
 export const addNewBlog = (newBlog, user) => {
   return async dispatch => {
     try {
-      const response = await blogService.create(newBlog);
+      // Vérifie si l'utilisateur est connecté
+      const response = await blogService.create(newBlog, formatToken(user.token));
       // Ajouter les informations de l'utilisateur au blog retourné
       const returnedBlog = {
             ...response,
@@ -100,12 +102,12 @@ export const likeBlog = (blog) => {
  * @param {*} blog - Le blog à supprimer
  * @returns {function} Une fonction qui supprime le blog et dispatch l'action removeBlog
  */
-export const deleteBlog = (blog) => {
+export const deleteBlog = (blog, user) => {
   return async (dispatch) => {
     try {
       const answer = window.confirm(`Are you sure you want to delete the blog: ${blog.title}?`);
       if (!answer) return;
-      await blogService.remove(blog.id);
+      await blogService.remove(blog.id, formatToken(user.token));
       dispatch(removeBlog(blog.id));
       const message = 'Blog deleted successfully !';
       dispatch(showNotification(message, 'success', 5));

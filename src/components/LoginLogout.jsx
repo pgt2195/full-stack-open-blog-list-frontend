@@ -1,41 +1,19 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
-import loginService from "../services/login";
 import Togglable from "./Toggable";
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser, logoutUser } from "../reducers/userReducer";
 
-const LoginLogout = ({ user, setUser }) => {
+const LoginLogout = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  /**
-   * Gère la connection de l'utilisateur, donne un message d'erreur si les identifiants
-   * et mots de passes sont mauvais, stock les données de login dans le localStorage
-   */
+
+  // Gère la connection de l'utilisateur
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
-    } catch (exception) {
-      console.log(exception)
-    }
-  };
-
-  /**
-   * Gère la déconnection de l'utilisateur
-   */
-  const logout = () => {
-    window.localStorage.removeItem("loggedBlogappUser");
-    setUser(null);
+    dispatch(loginUser(username, password));
   };
 
   return (
@@ -70,7 +48,7 @@ const LoginLogout = ({ user, setUser }) => {
       ) : (
         <div style={{ margin: "10px auto" }}>
           <span>{user.name} is logged in —</span>
-          <button style={{ marginLeft: 4 }} onClick={logout}>
+          <button style={{ marginLeft: 4 }} onClick={() => dispatch(logoutUser())}>
             logout
           </button>
         </div>

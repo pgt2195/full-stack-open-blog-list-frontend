@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { emptyBlog } from "../services/utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addNewBlog } from "../reducers/blogReducer";
 import { showNotification } from "../reducers/notificationReducer";
 
-const AddBlog = ({ user, blogFormRef }) => {
+const AddBlog = ({ blogFormRef }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   /**
    * Gère l'ajout d'un nouveau blog

@@ -2,7 +2,7 @@ import Blog from "./Blog";
 import { useSelector } from "react-redux";
 
 
-const DisplayBlogs = ({ user }) => {
+const DisplayBlogs = () => {
 
   const blogs = useSelector((state) => state.blogs)
 
@@ -20,7 +20,6 @@ const DisplayBlogs = ({ user }) => {
       {sortedBlogs.map((blog) => (
         <Blog
           key={blog.id}
-          user={user}
           blog={blog}
         />
       ))}

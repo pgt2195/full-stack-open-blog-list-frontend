@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { likeBlog, deleteBlog } from "../reducers/blogReducer";
+import { useSelector } from "react-redux";
 
 // #region styles
 const blogStyle = {
@@ -28,9 +29,10 @@ const postedByStyle = {
 // #endregion
 
 
-const Blog = ({ user, blog }) => {
+const Blog = ({ blog }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   // Vérifie si le blog a été posté par l'utilisateur connecté
   const blogPostedByConnectedUser =
@@ -68,7 +70,7 @@ const Blog = ({ user, blog }) => {
           {blogPostedByConnectedUser && (
             <button
               style={{ marginTop: 12 }}
-              onClick={() => dispatch(deleteBlog(blog))}
+              onClick={() => dispatch(deleteBlog(blog, user))}
             >
               remove blog
             </button>
@@ -79,7 +81,7 @@ const Blog = ({ user, blog }) => {
           <span style={{ fontSize: "10pt" }}>
             <i> - by {blog.author}</i>
           </span>
-          
+
           <button
             style={buttonStyle}
             onClick={() => setToggleBlogInfo(!toggleBlogInfo)}

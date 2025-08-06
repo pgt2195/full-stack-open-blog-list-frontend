@@ -53,6 +53,7 @@ const Notification = () => {
               color: getNotificationColor(notif.type)}
             }
             key={notif.id}
+            className={notif.type}
           >
             {notif.message}
           </div>
