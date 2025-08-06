@@ -8,7 +8,6 @@ const blogSlice = createSlice({
   initialState: [],
   reducers: {
     setBlogs: (_state, action) => {
-      console.log('blogs set in state', action.payload);
       return action.payload
     },
     addBlog: (state, action) => {
@@ -39,7 +38,6 @@ export const { setBlogs, addBlog, updateBlog, removeBlog } = blogSlice.actions;
 export const fetchBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll();
-    console.log('blogs fetched', blogs);
     dispatch(setBlogs(blogs));
   };
 };
@@ -63,15 +61,37 @@ export const addNewBlog = (newBlog, user) => {
               name: user.name,
             },
       }
-      dispatch(addBlog(response))
-      const message = `Your blog has been added successfully: ${response.title}`
-      showNotification(message, 'success', 5)
+      dispatch(addBlog(returnedBlog))
+      const message = `Your blog has been added successfully: ${returnedBlog.title}`
+      dispatch(showNotification(message, 'success', 5))
     } catch (exception) {
       const message = `Error, something happened: ${exception}`
-      showNotification(message, 'error', 10)
+      dispatch(showNotification(message, 'error', 10))
     }
   }
 }
+
+
+/**
+ * Gère l'ajout d'un like à un blog
+ * @param {object} blog - Le blog à liker
+ * @returns {function} Une fonction qui gère le like du blog
+ */
+export const likeBlog = (blog) => {
+  return async (dispatch) => {
+    try {
+      const likedBlog = { ...blog, likes: blog.likes + 1 };
+      const response = await blogService.update(blog.id, likedBlog);
+      const formatedBlog = { ...response, user: blog.user }; // pour gérer l'affichage de l'utilisateur sans avoir à recharger la page après l'ajout
+      dispatch(updateBlog(formatedBlog));
+      const message = `Blog liked successfully: ${formatedBlog.title}`;
+      dispatch(showNotification(message, 'success', 5));
+    } catch (exception) {
+      const message = `Error, something happened: ${exception}`;
+      dispatch(showNotification(message, 'error', 10));
+    }
+  };
+};
 
 //// REDUCER EXPORT ////  
 

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { showNotification } from "../reducers/notificationReducer";
 import blogService from "../services/blogs";
-import { fetchBlogs } from "../reducers/blogReducer";
+import { likeBlog } from "../reducers/blogReducer";
 
 const blogStyle = {
   maxWidth: 500,
@@ -27,28 +26,10 @@ const postedByStyle = {
   fontSize: "10pt",
 };
 
-const blogs = fetchBlogs()
 
 const Blog = ({ user, blog }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false);
   const dispatch = useDispatch();
-
-  const likeBlog = (blog) => {
-    const likedBlog = { ...blog, likes: blog.likes + 1 };
-    try {
-      blogService.update(blog.id, likedBlog).then((returnedBlog) => {
-        returnedBlog = { ...returnedBlog, user: blog.user }; // pour gérer l'affichage de l'utilsateur sans avoir à recharger la page après l'ajout
-        setBlogs(
-          blogs.map((blog) =>
-            blog.id === returnedBlog.id ? returnedBlog : blog,
-          ),
-        );
-        dispatch(showNotification(`Blog liked successfully: ${blog.title}`, 'success', 5));
-      });
-    } catch (exception) {
-      dispatch(showNotification('error liking blog', 'error', 5));
-    }
-  };
 
   const deleteBlog = (idToRemove) => {
     const confirmDelete = window.confirm(
@@ -86,7 +67,7 @@ const Blog = ({ user, blog }) => {
           </div>
           <div>
             <u>Likes:</u> {blog.likes}{" "}
-            <button onClick={() => likeBlog(blog)}>like</button>
+            <button onClick={() => dispatch(likeBlog(blog))}>like</button>
           </div>
           <div>
             <u>Author:</u> {blog.author}

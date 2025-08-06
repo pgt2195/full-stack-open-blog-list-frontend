@@ -24,7 +24,6 @@ const AddBlog = ({ user, blogFormRef }) => {
 
     dispatch(addNewBlog(newBlog, user)); // Ajoute le nouveau blog via le thunk addNewBlog
     setNewBlog(emptyBlog); // Réinitialise le formulaire d'ajout de blog
-    dispatch(showNotification(`Blog added successfully: ${newBlog.title}`, 'success', 5));
   };
 
   /**

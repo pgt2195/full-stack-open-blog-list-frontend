@@ -25,11 +25,6 @@ const getNotificationColor = (type) => {
 const Notification = () => {
   // Récupère les notifications depuis le store Redux
   const notifications = useSelector(state => state.notifications)
-
-  useEffect(() => {
-    // Logique pour gérer les effets secondaires si nécessaire
-    console.log('Notifications updated:', notifications);
-  }, [notifications]);
   
   // Si aucune notification n'est présente, retourne null
   if (notifications.length === 0) {
