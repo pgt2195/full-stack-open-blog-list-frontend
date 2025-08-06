@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import blogService from "../services/blogs";
-import { likeBlog } from "../reducers/blogReducer";
+import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 
+// #region styles
 const blogStyle = {
   maxWidth: 500,
   padding: 8,
@@ -25,29 +25,15 @@ const postedByStyle = {
   right: 5,
   fontSize: "10pt",
 };
+// #endregion
 
 
 const Blog = ({ user, blog }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false);
   const dispatch = useDispatch();
 
-  const deleteBlog = (idToRemove) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this blog?",
-    );
-
-    if (confirmDelete) {
-      try {
-        blogService.deleteBlog(blog.id).then(() => {
-          setBlogs(blogs.filter((blog) => blog.id !== idToRemove));
-        });
-      } catch (exception) {
-        console.log(exception)
-      }
-    }
-  };
-
-  const blogPostetByConnectedUser =
+  // Vérifie si le blog a été posté par l'utilisateur connecté
+  const blogPostedByConnectedUser =
     user && user.username === blog.user.username;
 
   return (
@@ -65,22 +51,24 @@ const Blog = ({ user, blog }) => {
           <div>
             <u>Link:</u> {blog.url}
           </div>
+
           <div>
             <u>Likes:</u> {blog.likes}{" "}
             <button onClick={() => dispatch(likeBlog(blog))}>like</button>
           </div>
+
           <div>
             <u>Author:</u> {blog.author}
           </div>
 
           <div style={postedByStyle}>
-            Added by {blogPostetByConnectedUser ? "you" : blog.user.username}
+            Added by {blogPostedByConnectedUser ? "you" : blog.user.username}
           </div>
 
-          {blogPostetByConnectedUser && (
+          {blogPostedByConnectedUser && (
             <button
               style={{ marginTop: 12 }}
-              onClick={() => deleteBlog(blog.id)}
+              onClick={() => dispatch(deleteBlog(blog))}
             >
               remove blog
             </button>
@@ -91,6 +79,7 @@ const Blog = ({ user, blog }) => {
           <span style={{ fontSize: "10pt" }}>
             <i> - by {blog.author}</i>
           </span>
+          
           <button
             style={buttonStyle}
             onClick={() => setToggleBlogInfo(!toggleBlogInfo)}

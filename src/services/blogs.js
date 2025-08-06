@@ -28,7 +28,7 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
-const deleteBlog = (id) => {
+const remove = (id) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -37,4 +37,4 @@ const deleteBlog = (id) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, update, setToken, deleteBlog };
+export default { getAll, create, update, setToken, remove };

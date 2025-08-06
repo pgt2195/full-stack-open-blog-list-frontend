@@ -42,6 +42,7 @@ export const fetchBlogs = () => {
   };
 };
 
+
 /**
  * Ajoute un nouveau blog au serveur et le dispatch dans le store.
  * @param {Object} newBlog - Le nouveau blog à créer.
@@ -85,6 +86,28 @@ export const likeBlog = (blog) => {
       const formatedBlog = { ...response, user: blog.user }; // pour gérer l'affichage de l'utilisateur sans avoir à recharger la page après l'ajout
       dispatch(updateBlog(formatedBlog));
       const message = `Blog liked successfully: ${formatedBlog.title}`;
+      // dispatch(showNotification(message, 'success', 5));
+    } catch (exception) {
+      const message = `Error, something happened: ${exception}`;
+      dispatch(showNotification(message, 'error', 10));
+    }
+  };
+};
+
+
+/**
+ * Supprime un blog
+ * @param {*} blog - Le blog à supprimer
+ * @returns {function} Une fonction qui supprime le blog et dispatch l'action removeBlog
+ */
+export const deleteBlog = (blog) => {
+  return async (dispatch) => {
+    try {
+      const answer = window.confirm(`Are you sure you want to delete the blog: ${blog.title}?`);
+      if (!answer) return;
+      await blogService.remove(blog.id);
+      dispatch(removeBlog(blog.id));
+      const message = 'Blog deleted successfully !';
       dispatch(showNotification(message, 'success', 5));
     } catch (exception) {
       const message = `Error, something happened: ${exception}`;
@@ -93,6 +116,6 @@ export const likeBlog = (blog) => {
   };
 };
 
-//// REDUCER EXPORT ////  
 
+//// REDUCER EXPORT ////
 export default blogSlice.reducer;
