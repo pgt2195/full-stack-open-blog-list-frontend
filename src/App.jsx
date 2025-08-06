@@ -1,19 +1,21 @@
-import { useEffect, useRef } from "react";
-import { fetchBlogs } from "./reducers/blogReducer";
-import { useDispatch, useSelector } from "react-redux";
-
-import LoginLogout from "./components/LoginLogout";
-import AddBlog from "./components/AddBlog";
-import DisplayBlogs from "./components/DisplayBlogs";
+// imports
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom';
+// components
 import Notification from "./components/Notification";
-import Togglable from "./components/Toggable";
+import LoginLogout from "./components/LoginLogout";
+import Home from "./components/Home";
+import Users from "./components/Users";
+// reducers
+import { fetchBlogs } from "./reducers/blogReducer";
 import { initializeUser } from "./reducers/userReducer";
 
 const App = () => {
-  const blogFormRef = useRef();
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchBlogs()); // Récupération des blogs au chargement de l'application
@@ -25,20 +27,13 @@ const App = () => {
       <Notification />
 
       <h2>blogs</h2>
-
       <LoginLogout />
 
-      {user !== null && (
-        <Togglable
-          buttonLabel="add new blog"
-          ref={blogFormRef}
-          style={{ marginTop: 4 }}
-        >
-          <AddBlog blogFormRef={blogFormRef} />
-        </Togglable>
-      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
 
-      <DisplayBlogs />
     </div>
   );
 };
