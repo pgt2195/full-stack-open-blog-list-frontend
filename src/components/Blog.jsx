@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../reducers/notificationReducer";
 import blogService from "../services/blogs";
+import { fetchBlogs } from "../reducers/blogReducer";
 
 const blogStyle = {
   maxWidth: 500,
@@ -26,7 +27,9 @@ const postedByStyle = {
   fontSize: "10pt",
 };
 
-const Blog = ({ user, blog, blogs, setBlogs }) => {
+const blogs = fetchBlogs()
+
+const Blog = ({ user, blog }) => {
   const [toggleBlogInfo, setToggleBlogInfo] = useState(false);
   const dispatch = useDispatch();
 

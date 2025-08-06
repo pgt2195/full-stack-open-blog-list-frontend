@@ -1,46 +1,36 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 import { emptyBlog } from "../services/utils";
+import { useDispatch } from "react-redux";
+import { addNewBlog } from "../reducers/blogReducer";
+import { showNotification } from "../reducers/notificationReducer";
 
-const AddBlog = ({
-  user,
-  blogs,
-  setBlogs,
-  blogFormRef,
-}) => {
+const AddBlog = ({ user, blogFormRef }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog);
+  const dispatch = useDispatch();
 
   /**
-   * Gère l'ajout d'un nouveau blog depuis le formulaire d'ajout
-   * du composant DisplayBlogs
+   * Gère l'ajout d'un nouveau blog
+   * @param {object} event - L'événement de soumission du formulaire
    */
   const addBlog = (event) => {
     event.preventDefault();
+    blogFormRef.current.toggleVisibility(); // Ferme le formulaire d'ajout de blog après soumission
 
-    blogFormRef.current.toggleVisibility();
-
-    try {
-      blogService.create(newBlog).then((returnedBlog) => {
-        returnedBlog = {
-          ...returnedBlog,
-          user: {
-            id: returnedBlog.user,
-            username: user.username,
-            name: user.name,
-          },
-        }; // pour gérer l'affichage de l'utilsateur sans avoir à recharger la page après l'ajout
-        setBlogs(blogs.concat(returnedBlog));
-        console.log(returnedBlog);
-        setNewBlog(emptyBlog);
-      });
-    } catch (exception) {
-      console.log(exception)
+    // Ne pas ajouter le blog si les champs requis sont vides
+    if (!newBlog.title || !newBlog.author || !newBlog.url) {
+      dispatch(showNotification('Please fill in all fields', 'error', 5));
+      return;
     }
+
+    dispatch(addNewBlog(newBlog, user)); // Ajoute le nouveau blog via le thunk addNewBlog
+    setNewBlog(emptyBlog); // Réinitialise le formulaire d'ajout de blog
+    dispatch(showNotification(`Blog added successfully: ${newBlog.title}`, 'success', 5));
   };
 
   /**
    * Gère la mise à jour de l'état d'un nouveau blog lorsqu'il
    * est en train d'être ajouté
+   * @param {object} event - L'événement de changement du formulaire
    */
   const handleNewBlogChange = (event) => {
     setNewBlog({

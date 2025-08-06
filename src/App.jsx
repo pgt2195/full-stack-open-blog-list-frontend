@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { fetchBlogs } from "./reducers/blogReducer";
+import { useDispatch } from "react-redux";
 
 import blogService from "./services/blogs";
 import LoginLogout from "./components/LoginLogout";
@@ -8,21 +10,17 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Toggable";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-
   const blogFormRef = useRef();
+  const dispatch = useDispatch();
 
-  /**
-   * Choppe les blogs qui sont dans la BDD
-   */
+  // Récupération des blogs au chargement de l'application
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(fetchBlogs());
   }, []);
 
-  /**
-   * Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
-   */
+  // Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
@@ -51,8 +49,6 @@ const App = () => {
         >
           <AddBlog
             user={user}
-            blogs={blogs}
-            setBlogs={setBlogs}
             blogFormRef={blogFormRef}
           />
         </Togglable>
@@ -60,8 +56,6 @@ const App = () => {
 
       <DisplayBlogs
         user={user}
-        blogs={blogs}
-        setBlogs={setBlogs}
       />
     </div>
   );

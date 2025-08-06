@@ -1,10 +1,15 @@
 import Blog from "./Blog";
+import { useSelector } from "react-redux";
 
-const DisplayBlogs = ({
-  user,
-  blogs,
-  setBlogs,
-}) => {
+
+const DisplayBlogs = ({ user }) => {
+
+  const blogs = useSelector((state) => state.blogs)
+
+  if (!blogs || blogs.length === 0) {
+    return <div>No blogs available</div>;
+  }
+
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
 
   return (
@@ -17,8 +22,6 @@ const DisplayBlogs = ({
           key={blog.id}
           user={user}
           blog={blog}
-          blogs={blogs}
-          setBlogs={setBlogs}
         />
       ))}
     </div>
