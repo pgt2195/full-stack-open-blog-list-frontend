@@ -38,6 +38,7 @@ export const initializeUser = () => {
   };
 };
 
+
 /**
  * Gère la connexion de l'utilisateur et stocke les données dans le localStorage
  * @param {Object} user - Les données de l'utilisateur
@@ -59,6 +60,7 @@ export const loginUser = (username, password) => {
     }
   };
 };
+
 
 /**
  * Gère la déconnexion de l'utilisateur, supprime les données du localStorage

@@ -29,7 +29,7 @@ const AddBlog = ({ blogFormRef }) => {
 
   /**
    * Gère la mise à jour de l'état d'un nouveau blog lorsqu'il
-   * est en train d'être ajouté
+   * est en train d'être écrit dans le formulaire
    * @param {object} event - L'événement de changement du formulaire
    */
   const handleNewBlogChange = (event) => {
