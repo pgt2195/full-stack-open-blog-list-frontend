@@ -1,25 +1,5 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
-/** 
- * Renvoie la couleur de la notification en fonction de son type.
- * @param {string} type - Le type de la notification.
- * @returns {string} La couleur de la notification.
- */
-const getNotificationColor = (type) => {
-  switch (type) {
-    case "success":
-      return "green";
-    case "error":
-      return "red";
-    case "warning":
-      return "orange";
-    case "info":
-      return "blue";
-    default:
-      return "black";
-  }
-};
+import "./Notification.scss";
 
 
 const Notification = () => {
@@ -33,13 +13,11 @@ const Notification = () => {
 
   // Définit le style de base pour une notification
   const baseStyle = {
-    background: "lightgrey",
     fontSize: 20,
     borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
     marginTop: 10,
-    width: 500,
   };
 
   // Affiche les notifications
@@ -48,12 +26,10 @@ const Notification = () => {
     <div>
       {notifications.map(notif => {
         return (
-          <div style={
-              {...baseStyle, 
-              color: getNotificationColor(notif.type)}
-            }
+          <div
+            style={baseStyle}
             key={notif.id}
-            className={notif.type}
+            className={`notification ${notif.type}`} // Utilisation d'un espace pour séparer les classes
           >
             {notif.message}
           </div>

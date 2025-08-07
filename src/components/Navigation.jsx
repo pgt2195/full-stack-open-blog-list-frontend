@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 import LoginLogout from "./LoginLogout";
+import './Navigation.scss';
 
 const Navigation = () => {
   const navStyle = {
-    backgroundColor: "lightgrey",
-    padding: 10,
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "flex-start",
+    alignItems: "center",
   };
 
   const linkStyle = {
@@ -15,7 +14,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav style={navStyle}>
+    <nav style={navStyle} id="navigation">
       <div>
         <Link style={linkStyle} to="/">
           Home

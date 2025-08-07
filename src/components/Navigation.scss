@@ -1,0 +1,26 @@
+#navigation {
+  background-color: #a944b9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+
+  a {
+    color: white;
+  }
+  a:hover {
+    color: #d1b3e0;
+  }
+
+  button{
+    background-color: white;
+    color: #a944b9;
+    border: none;
+    padding: 4px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #f8cdfa;
+  }
+}

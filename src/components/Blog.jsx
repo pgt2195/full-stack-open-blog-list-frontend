@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 // #region styles
 const blogStyle = {
-  maxWidth: 500,
   padding: 8,
-  border: "solid",
+  backgroundColor: "white",
   borderRadius: 5,
   borderWidth: 1,
   marginBottom: 5,
   position: "relative",
+  paddingRight: 50,
 };
 
 const buttonStyle = {

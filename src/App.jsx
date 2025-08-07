@@ -8,7 +8,6 @@ import {
 // components
 import Navigation from "./components/Navigation";
 import Notification from "./components/Notification";
-import LoginLogout from "./components/LoginLogout";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import User from "./components/User";
@@ -17,6 +16,7 @@ import BlogView from "./components/BlogView";
 import { fetchBlogs } from "./reducers/blogReducer";
 import { fetchUsers } from "./reducers/userReducer";
 import { initializeUser } from "./reducers/userLogReducer";
+import './App.scss';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,8 +28,10 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <Navigation />
+
+      <div className="main-container">
       <Notification />
 
       <h2>blogs</h2>
@@ -41,6 +43,7 @@ const App = () => {
         <Route path="/users/:id" element={<User />} />
         <Route path="/blogs/:id" element={<BlogView />} />
       </Routes>
+      </div>
 
     </div>
   );

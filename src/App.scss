@@ -1,0 +1,35 @@
+html {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  line-height: 1.6;
+}
+
+.main-container {
+  margin: 0 auto;
+  width: 75%;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #ffdff4;
+}
+
+button {
+  background-color: #ee7cff;
+  color: white;
+  border: none;
+  padding: 4px;
+  border-radius: 5px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #9a4fa6;
+}
+
+a {
+  color: #ee7cff;
+  text-decoration: none;
+}
+
+a:hover {
+  color:#9a4fa6
+}
