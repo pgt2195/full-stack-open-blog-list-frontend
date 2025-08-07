@@ -6,6 +6,7 @@ import {
   Routes, Route, Link
 } from 'react-router-dom';
 // components
+import Navigation from "./components/Navigation";
 import Notification from "./components/Notification";
 import LoginLogout from "./components/LoginLogout";
 import Blogs from "./components/Blogs";
@@ -28,10 +29,10 @@ const App = () => {
 
   return (
     <div>
+      <Navigation />
       <Notification />
 
       <h2>blogs</h2>
-      <LoginLogout />
 
       <Routes>
         <Route path="/" element={<Blogs />} />

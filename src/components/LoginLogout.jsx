@@ -14,15 +14,15 @@ const LoginLogout = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     dispatch(loginUser(username, password));
+    setUsername("");
+    setPassword("");
   };
 
   return (
     <>
       {user === null ? (
         <Togglable buttonLabel="login">
-          <p>
-            <b>log in to application</b>
-          </p>
+          <div style={{marginBottom: 10}}><b>log in to application</b></div>
           <form onSubmit={handleLogin}>
             <div>
               username{" "}
@@ -46,7 +46,7 @@ const LoginLogout = () => {
           </form>
         </Togglable>
       ) : (
-        <div style={{ margin: "10px auto" }}>
+        <div>
           <span>{user.name} is logged in —</span>
           <button style={{ marginLeft: 4 }} onClick={() => dispatch(logoutUser())}>
             logout
