@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // #region styles
 const blogStyle = {
@@ -40,7 +41,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle} data-testid="blog-unit">
-      {blog.title}
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
       {toggleBlogInfo ? (
         <>
           <button

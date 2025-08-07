@@ -7,7 +7,7 @@ import AddBlog from "./AddBlog";
 import DisplayBlogs from "./DisplayBlogs";
 
 
-const Home = () => {
+const Blogs = () => {
   const user = useSelector((state) => state.user);
   const blogFormRef = useRef();
 
@@ -29,4 +29,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Blogs;

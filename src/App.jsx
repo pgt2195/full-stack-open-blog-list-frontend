@@ -8,9 +8,10 @@ import {
 // components
 import Notification from "./components/Notification";
 import LoginLogout from "./components/LoginLogout";
-import Home from "./components/Home";
+import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import User from "./components/User";
+import BlogView from "./components/BlogView";
 // reducers
 import { fetchBlogs } from "./reducers/blogReducer";
 import { fetchUsers } from "./reducers/userReducer";
@@ -33,9 +34,11 @@ const App = () => {
       <LoginLogout />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Blogs />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<BlogView />} />
       </Routes>
 
     </div>
