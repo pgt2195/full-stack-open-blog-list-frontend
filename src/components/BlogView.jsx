@@ -1,23 +1,30 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { likeBlog } from "../reducers/blogReducer";
+import { addCommentToBlog } from "../reducers/blogReducer";
 
 const BlogView = () => {
+  const [comment, setComment] = useState("");
   const blogs = useSelector((state) => state.blogs);
   const blogId = useParams().id;
   const blog = blogs.find((b) => b.id === blogId);
   const dispatch = useDispatch();
 
-
   if (!blog) {
     return <div>Blog not found.</div>;
   }
 
+  // Fonction pour gérer l'envoi de commentaires
   const handleCommentSubmit = (event) => {
     event.preventDefault();
-    console.log('Comment button clicked');
+    dispatch(addCommentToBlog(blog, comment));
+    setComment(""); 
   }
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
 
   return (
     <div>
@@ -34,7 +41,7 @@ const BlogView = () => {
         {blog.comments && blog.comments.length > 0 ? (
           <ul>
             {blog.comments.map((comment) => (
-              <li key={comment.id}>{comment.content}</li>
+              <li key={comment._id}>{comment.content}</li>
             ))}
           </ul>
         ) : (
@@ -45,7 +52,7 @@ const BlogView = () => {
       <div>
         <h3>Add a comment</h3>
         <form onSubmit={handleCommentSubmit}>
-          <input type="text" name="comment" placeholder="Write a comment..." />
+          <input value={comment} type="text" name="comment" placeholder="Write a comment..." onChange={handleCommentChange} />
           <button type="submit">Add Comment</button>
         </form>
       </div>

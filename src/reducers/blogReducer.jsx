@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import blogService from '../services/blogs';
 import { showNotification } from './notificationReducer';
 import { formatToken } from '../services/utils';
+import { generateId } from '../services/utils';
 
 //// SLICE ////
 const blogSlice = createSlice({
@@ -87,8 +88,6 @@ export const likeBlog = (blog) => {
       const response = await blogService.update(blog.id, likedBlog);
       const formatedBlog = { ...response, user: blog.user }; // pour gérer l'affichage de l'utilisateur sans avoir à recharger la page après l'ajout
       dispatch(updateBlog(formatedBlog));
-      const message = `Blog liked successfully: ${formatedBlog.title}`;
-      // dispatch(showNotification(message, 'success', 5));
     } catch (exception) {
       const message = `Error, something happened: ${exception}`;
       dispatch(showNotification(message, 'error', 10));
@@ -110,6 +109,38 @@ export const deleteBlog = (blog, user) => {
       await blogService.remove(blog.id, formatToken(user.token));
       dispatch(removeBlog(blog.id));
       const message = 'Blog deleted successfully !';
+      dispatch(showNotification(message, 'success', 5));
+    } catch (exception) {
+      const message = `Error, something happened: ${exception}`;
+      dispatch(showNotification(message, 'error', 10));
+    }
+  };
+};
+
+
+/**
+ * Ajoute un commentaire à un blog
+ * @param {*} blog - Le blog auquel ajouter le commentaire
+ * @param {*} comment - Le contenu du commentaire à ajouter
+ * @returns {function} Une fonction qui ajoute le commentaire au blog et dispatch l'action updateBlog
+ */
+export const addCommentToBlog = (blog, comment) => {
+  return async (dispatch) => {
+    // Vérifie si le commentaire est vide
+    if (!comment || comment.trim() === "") {
+      dispatch(showNotification("Comment cannot be empty", "error", 5));
+      return;
+    }
+    try {
+      const formatedComment = {
+        content: comment,
+        id: generateId()
+      }
+      const commentedBlog = { ...blog, comments: [...blog.comments, formatedComment] };
+      const response = await blogService.update(blog.id, commentedBlog);
+      const formatedBlog = { ...response, user: blog.user }; // pour gérer l'affichage de l'utilisateur sans avoir à recharger la page après l'ajout
+      dispatch(updateBlog(formatedBlog));
+      const message = `Comment added successfully to blog: ${formatedBlog.title}`;
       dispatch(showNotification(message, 'success', 5));
     } catch (exception) {
       const message = `Error, something happened: ${exception}`;
