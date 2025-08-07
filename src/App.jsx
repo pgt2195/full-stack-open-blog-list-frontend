@@ -12,13 +12,15 @@ import Home from "./components/Home";
 import Users from "./components/Users";
 // reducers
 import { fetchBlogs } from "./reducers/blogReducer";
-import { initializeUser } from "./reducers/userReducer";
+import { fetchUsers } from "./reducers/userReducer";
+import { initializeUser } from "./reducers/userLogReducer";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchBlogs()); // Récupération des blogs au chargement de l'application
+    dispatch(fetchUsers()); // Récupération des utilisateurs au chargement de l'application
     dispatch(initializeUser()); // Vérifie dans le localStorage si un utilisateur est déjà connecté ou pas
   }, []);
 

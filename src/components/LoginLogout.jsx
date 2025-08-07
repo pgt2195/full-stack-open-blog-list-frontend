@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Togglable from "./Toggable";
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, logoutUser } from "../reducers/userReducer";
+import { loginUser, logoutUser } from "../reducers/userLogReducer";
 
 const LoginLogout = () => {
   const [username, setUsername] = useState("");
