@@ -25,7 +25,7 @@ export const fetchUsers = () => {
   return async dispatch => {
     const users = await userService.getAll();
     dispatch(setUsers(users));
-    console.log("Fetched users:", users);
+    // console.log("Fetched users:", users);
   }
 };
 
